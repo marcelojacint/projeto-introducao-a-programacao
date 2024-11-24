@@ -37,4 +37,25 @@ export class SlipService {
       })
     );
   }
+
+  // Método para salvar todos os slips no arquivo
+salvarSlipsEmArquivo(): Observable<string> {
+  return this.http.post<string>(`${this.baseUrl}/salvarTexto`, {}).pipe(
+    catchError((error) => {
+      console.error('Erro ao salvar slips no arquivo:', error);
+      return throwError(() => new Error('Erro ao salvar slips no arquivo'));
+    })
+  );
+}
+
+// Método para carregar slips do arquivo
+carregarSlipsDoArquivo(): Observable<any[]> {
+  return this.http.get<any[]>(`${this.baseUrl}/carregarDoArquivo`).pipe(
+    catchError((error) => {
+      console.error('Erro ao carregar slips do arquivo:', error);
+      return throwError(() => new Error('Erro ao carregar slips do arquivo'));
+    })
+  );
+}
+
 }

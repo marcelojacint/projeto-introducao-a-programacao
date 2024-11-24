@@ -1,1 +1,185 @@
+/* Estilo principal da barra */
+.bar-container {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 25px;
+  background: linear-gradient(145deg, #ffffff, #f0f0f0); /* Fundo moderno e claro */
+  border-radius: 15px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+  font-family: 'Poppins', sans-serif; /* Fonte moderna */
+  text-align: center;
+  position: relative;
+  overflow: hidden; /* Para manter os ícones dentro do limite */
 
+  /* Ícones de cerveja flutuantes */
+  &:before,
+  &:after {
+    content: '🍺';
+    font-size: 3rem;
+    position: absolute;
+    animation: float 6s infinite ease-in-out;
+    opacity: 0.3;
+  }
+
+  &:before {
+    left: 10%;
+    top: -5%;
+  }
+
+  &:after {
+    right: 10%;
+    bottom: -5%;
+  }
+
+  @keyframes float {
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(20px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  .bar-header {
+    margin-bottom: 20px;
+
+    h1 {
+      font-size: 2.8rem;
+      color: #1c9e3b; /* Verde Heineken */
+      text-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .beer-logo {
+      max-width: 100px;
+      margin-top: 10px;
+    }
+  }
+
+  .input-container {
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+
+    input {
+      font-size: 1rem;
+      padding: 10px 15px;
+      width: 250px;
+      background-color: #e8f5e9; /* Verde claro */
+      border: 2px solid #1c9e3b;
+      border-radius: 10px;
+      text-align: center;
+      transition: all 0.3s ease;
+
+      &:focus {
+        outline: none;
+        box-shadow: 0 0 10px #1c9e3b;
+      }
+    }
+
+    button {
+      font-size: 1rem;
+      font-weight: bold;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      background-color: #1c9e3b;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover {
+        background-color: #14722a;
+        transform: scale(1.1);
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      &:disabled {
+        background-color: #b2dfdb;
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+
+/* Estilo dos cartões */
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+
+  .card {
+    background-color: #f8fff8;
+    border: 2px solid #1c9e3b;
+    border-radius: 15px;
+    padding: 20px;
+    width: 280px;
+    text-align: center;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      transform: translateY(-10px);
+      box-shadow: 0px 12px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    h4 {
+      font-size: 1.4rem;
+      color: #1c9e3b;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 1rem;
+      color: #333;
+    }
+  }
+}
+
+/* Botão "Sair da Lista de Arquivos" */
+.sair-btn {
+  background-color: #ff5252; /* Vermelho vibrante */
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: #d32f2f;
+    transform: scale(1.1);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  }
+}
+
+/* Mensagem quando não há conselhos */
+p {
+  font-size: 1.2rem;
+  color: #1c9e3b;
+  font-style: italic;
+  margin-top: 20px;
+}
+
+/* Animação dos cartões */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card {
+  animation: fadeIn 0.5s ease-out;
+}

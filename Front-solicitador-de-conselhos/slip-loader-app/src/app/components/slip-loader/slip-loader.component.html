@@ -41,8 +41,43 @@
       </div>
     </div>
   </div>
+
   <!-- Mensagem quando não há conselhos carregados -->
   <div *ngIf="slips.length === 0 && !loading">
     <p>Nenhum conselho encontrado.</p>
   </div>
+
+    <!-- Botões adicionais -->
+<div class="input-container">
+  <button
+    (click)="salvarSlipsNoArquivo()"
+    [disabled]="loading"
+    class="carregar-btn">
+    {{ loading ? 'Salvando...' : 'Salvar Slips no Arquivo' }}
+  </button>
+
+  <button
+    (click)="carregarSlipsDoArquivo()"
+    [disabled]="loading"
+    class="carregar-btn">
+    {{ loading ? 'Carregando...' : 'Carregar Slips do Arquivo' }}
+  </button>
+</div>
+
+<!-- Exibir conselhos carregados do arquivo -->
+<div *ngIf="slipsDoArquivo.length > 0">
+  <h3>Conselhos Carregados do Arquivo</h3>
+  <button (click)="sairDaListaDeArquivos()" class="sair-btn">
+    Sair da Lista de Arquivos
+  </button>
+  <div class="card-container">
+    <div class="card" *ngFor="let slip of slipsDoArquivo">
+      <h4>Conselho #{{ slip.id }}</h4>
+      <p>{{ slip.advice }}</p>
+    </div>
+  </div>
+</div>
+
+
+
 </div>
