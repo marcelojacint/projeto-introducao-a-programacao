@@ -4,6 +4,7 @@
     <img src="assets/beer-logo.png" alt="Logo" class="beer-logo">
   </div>
 
+  <!-- Input para definir a quantidade de conselhos -->
   <div class="input-container">
     <input
       type="number"
@@ -11,7 +12,10 @@
       min="1"
       placeholder="Quantos conselhos você quer?"
       class="quantidade-input">
+  </div>
 
+  <!-- Botões para carregar conselhos -->
+  <div class="input-container">
     <button
       (click)="carregarSlips()"
       [disabled]="loading"
@@ -27,9 +31,18 @@
     </button>
   </div>
 
-  <div class="slips-container">
-    <div *ngFor="let slip of slips" class="slip-card">
-      {{ slip.advice }}
+  <!-- Exibir conselhos com cards -->
+  <div *ngIf="slips.length > 0">
+    <h3>Conselhos Carregados</h3>
+    <div class="card-container">
+      <div class="card" *ngFor="let slip of slips">
+        <h4>Conselho #{{ slip.id }}</h4>
+        <p>{{ slip.advice }}</p>
+      </div>
     </div>
+  </div>
+  <!-- Mensagem quando não há conselhos carregados -->
+  <div *ngIf="slips.length === 0 && !loading">
+    <p>Nenhum conselho encontrado.</p>
   </div>
 </div>
