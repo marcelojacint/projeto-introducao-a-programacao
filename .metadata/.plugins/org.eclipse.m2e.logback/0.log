@@ -17,3 +17,6 @@
 2024-11-23 23:08:16,545 [Worker-10: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
 2024-11-23 23:08:16,577 [Worker-10: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
 2024-11-23 23:08:16,584 [Worker-10: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Arquivos\faculdade 1 semestre\projeto-final-messias\solicitador-formatador-de-conselhos\src\test\resources
+2024-11-23 23:10:18,529 [Worker-6: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-11-23 23:10:18,541 [Worker-6: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - Copying 1 resource from src\main\resources to target\classes
+2024-11-23 23:10:18,549 [Worker-6: Building] INFO  o.a.m.s.f.DefaultMavenResourcesFiltering - skip non existing resourceDirectory C:\Arquivos\faculdade 1 semestre\projeto-final-messias\solicitador-formatador-de-conselhos\src\test\resources
