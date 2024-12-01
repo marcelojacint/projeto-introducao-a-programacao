@@ -2,6 +2,7 @@ package com.marcelodev.solicitador_formatador_de_conselhos.service;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -10,6 +11,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -32,8 +34,14 @@ public class SlipService {
 		try {
 			resposta = restTemplate.getForObject(ADVICE_API_URL, String.class);
 
-		} catch (Exception e) {
-			System.err.println("Erro ao chamar a API: " + e.getMessage());
+		} catch (RestClientException e) {
+			System.err.println("Falha na requisição HTTP: " + e.getMessage());
+			return null;
+		} catch (NullPointerException e) {
+			System.err.println("Resposta da API foi nula: " + e.getMessage());
+			return null;
+		} catch (IllegalStateException e) {
+			System.err.println("valor inesperado da API: " + e.getMessage());
 			return null;
 		}
 
@@ -80,19 +88,27 @@ public class SlipService {
 
 	// Método para carregar múltiplos conselhos
 	public List<Slip> carregarSlips(int numero_conselhos) {
-		List<Slip> listaSlips = new ArrayList<>();
-		for (int i = 0; i < numero_conselhos; i++) {
-			Slip slip = carregarDadosSlip();
-			if (slip != null) {
-				listaSlips.add(slip);
-			} else {
-				// Caso o conselho não seja carregado, interrompe a coleta
-				System.err.println("Falha ao carregar o conselho #" + (i + 1));
-				break;
-			}
-		}
 
-		return listaSlips;
+		List<Slip> listaSlips = new ArrayList<>();
+		try {
+			for (int i = 0; i < numero_conselhos; i++) {
+				Slip slip = carregarDadosSlip();
+				if (slip != null) {
+					listaSlips.add(slip);
+				} else {
+					// Caso o conselho não seja carregado, interrompe a coleta
+					System.err.println("Falha ao carregar o conselho #" + (i + 1));
+					break;
+				}
+			}
+
+			return listaSlips;
+
+		} catch (IllegalArgumentException e) {
+			System.err.println("Número invalido! " + e.getMessage());
+			return null;
+
+		}
 	}
 
 	// Método para retornar todos os conselhos carregados
@@ -123,68 +139,31 @@ public class SlipService {
 		salvarEmArquivo(todosSlips); // Reutiliza o método salvarEmArquivo já implementado
 	}
 
-	public List<Slip> carregarSlipsDeArquivo(List<Slip> slips2) {
-		String caminhoArquivo = "slips.txt"; // Caminho do arquivo
-		List<Slip> slips = new ArrayList<>(); // Lista para armazenar os slips
+	public List<Slip> carregarSlipsDoArquivo() throws FileNotFoundException {
+		String caminhoArquivo = "slips.txt";
+		List<Slip> slips = new ArrayList<>();
 
 		try (BufferedReader reader = new BufferedReader(new FileReader(caminhoArquivo))) {
 			String linha;
 			while ((linha = reader.readLine()) != null) {
-				// Divide a linha em duas partes: ID e conselho
-				String[] partes = linha.split(" ", 2); // Limita a divisão em 2 partes: ID e o restante como conselho
-
-				// Verifica se a linha tem pelo menos 2 partes
-				if (partes.length >= 2) {
+				String[] partes = linha.split(" ", 2); // Divide em ID e Conselho
+				if (partes.length == 2) {
 					try {
-						// Converte a primeira parte para o ID (aqui se espera um tipo Long)
 						Slip slip = new Slip();
-						slip.setId(Long.parseLong(partes[0])); // ID como Long
-						slip.setAdvice(partes[1]); // O restante é o conselho
-
-						// Adiciona o slip à lista
+						slip.setId(Long.parseLong(partes[0])); // Converte ID para Long
+						slip.setAdvice(partes[1]); // O restante da linha é o conselho
 						slips.add(slip);
 					} catch (NumberFormatException e) {
-						// Erro ao converter o ID para número
 						System.err.println("Erro ao converter ID: " + partes[0]);
-						continue; // Ignora a linha com erro e continua
 					}
 				}
 			}
-			System.out.println("Arquivo carregado com sucesso.");
+			System.out.println("Slips carregados do arquivo com sucesso.");
 		} catch (IOException e) {
-			// Erro ao ler o arquivo
 			System.err.println("Erro ao carregar o arquivo: " + e.getMessage());
-			e.printStackTrace(); // Imprime o stack trace para mais detalhes
 		}
 
-		return slips; // Retorna a lista de slips carregados
-	}
-	
-	public List<Slip> carregarSlipsDoArquivo() {
-	    String caminhoArquivo = "slips.txt";
-	    List<Slip> slips = new ArrayList<>();
-
-	    try (BufferedReader reader = new BufferedReader(new FileReader(caminhoArquivo))) {
-	        String linha;
-	        while ((linha = reader.readLine()) != null) {
-	            String[] partes = linha.split(" ", 2); // Divide em ID e Conselho
-	            if (partes.length == 2) {
-	                try {
-	                    Slip slip = new Slip();
-	                    slip.setId(Long.parseLong(partes[0])); // Converte ID para Long
-	                    slip.setAdvice(partes[1]); // O restante da linha é o conselho
-	                    slips.add(slip);
-	                } catch (NumberFormatException e) {
-	                    System.err.println("Erro ao converter ID: " + partes[0]);
-	                }
-	            }
-	        }
-	        System.out.println("Slips carregados do arquivo com sucesso.");
-	    } catch (IOException e) {
-	        System.err.println("Erro ao carregar o arquivo: " + e.getMessage());
-	    }
-
-	    return slips;
+		return slips;
 	}
 
 }
