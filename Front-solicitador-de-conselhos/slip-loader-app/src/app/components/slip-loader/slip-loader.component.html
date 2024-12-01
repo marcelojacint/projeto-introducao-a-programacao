@@ -1,7 +1,11 @@
 <div class="bar-container">
   <div class="bar-header">
     <h1>Bar do Seu Zé</h1>
-    <img src="assets/beer-logo.png" alt="Logo" class="beer-logo">
+    <img src="assets/img/seuZeBar.png" alt="Logo" class="beer-logo">
+    <h2 class="header-h2">
+      Já escolheu sua bebida?<br>Espero que sim!<br>Agora vamos de uma Alcooltivação!<br>
+      Quantos conselhos hoje?
+    </h2>
   </div>
 
   <!-- Input para definir a quantidade de conselhos -->
@@ -29,27 +33,7 @@
       class="carregar-btn">
       {{ loading ? 'Carregando...' : 'Carregar Todos' }}
     </button>
-  </div>
-
-  <!-- Exibir conselhos com cards -->
-  <div *ngIf="slips.length > 0">
-    <h3>Conselhos Carregados</h3>
-    <div class="card-container">
-      <div class="card" *ngFor="let slip of slips">
-        <h4>Conselho #{{ slip.id }}</h4>
-        <p>{{ slip.advice }}</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- Mensagem quando não há conselhos carregados -->
-  <div *ngIf="slips.length === 0 && !loading">
-    <p>Nenhum conselho encontrado.</p>
-  </div>
-
-    <!-- Botões adicionais -->
-<div class="input-container">
-  <button
+    <button
     (click)="salvarSlipsNoArquivo()"
     [disabled]="loading"
     class="carregar-btn">
@@ -64,6 +48,7 @@
   </button>
 </div>
 
+
 <!-- Exibir conselhos carregados do arquivo -->
 <div *ngIf="slipsDoArquivo.length > 0">
   <h3>Conselhos Carregados do Arquivo</h3>
@@ -76,8 +61,28 @@
       <p>{{ slip.advice }}</p>
     </div>
   </div>
+  </div>
+
+  <!-- Exibir conselhos com cards -->
+  <div *ngIf="slips.length > 0">
+    <h3>Conselhos Carregados</h3>
+    <div class="card-container">
+      <div class="card" *ngFor="let slip of slips">
+        <h4>Conselho #{{ slip.id }}</h4>
+        <p>{{ slip.advice }}</p>
+      </div>
+    </div>
+  </div>
+
+      <!-- Botões adicionais -->
+<div class="input-container">
+
 </div>
 
 
+  <!-- Mensagem quando não há conselhos carregados -->
+  <div *ngIf="slips.length === 0 && !loading">
+    <p>Nenhum conselho encontrado.</p>
+  </div>
 
 </div>

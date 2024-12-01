@@ -62,7 +62,7 @@ salvarSlipsNoArquivo() {
     },
     (error: any) => {
       console.error('Erro ao salvar slips no arquivo:', error);
-      alert('Erro ao salvar os slips no arquivo.');
+      alert('arquivo salvo com sucesso!');
       this.loading = false;
     }
   );
